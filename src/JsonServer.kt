@@ -1,6 +1,5 @@
 import Queries.ShowStockroom
 import com.sun.net.httpserver.HttpServer
-import java.io.IOException
 import java.io.UnsupportedEncodingException
 import java.net.InetSocketAddress
 import java.net.URI
@@ -8,7 +7,7 @@ import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 import java.util.*
 
-class JsonServer {
+object JsonServer {
   private val PORT = 8001
   private val BACKLOG = 1
 
@@ -67,7 +66,7 @@ class JsonServer {
     showStockroomContextCreate()
   }
 
-  @Throws(IOException::class)
+  @JvmStatic
   fun main(args: Array<String>) {
     val adress = InetSocketAddress(/*"http://students.mimuw.edu.pl/, */PORT)
     server = HttpServer.create(adress, BACKLOG)
