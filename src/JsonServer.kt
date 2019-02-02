@@ -1,3 +1,5 @@
+import Queries.ShowStockroom
+import Queries.Constants
 import com.sun.net.httpserver.HttpServer
 import java.io.IOException
 import java.io.UnsupportedEncodingException
@@ -25,51 +27,9 @@ object JsonServer {
   private val METHOD_OPTIONS = "OPTIONS"
   private val ALLOWED_METHODS = "$METHOD_GET,$METHOD_OPTIONS"
 
-  private val ERROR_STRING = "ERROR"
-
-  private val TRUTH_VALUE = "TRUE"
-  private val FALSE_VALUE = "FALSE"
-
-  private val showMagPath = "/show_mag"
-  private val addToMagPath = "/add_to_mag"
-
-  private val showMagShowZeroKey = "show_zero"
-
-  // TODO:
-  private fun showMagAll(): String = "TODO: showMagAll()"
-
-  // TODO:
-  private fun showMagZeroCap(): String = "TODO: showMagZeroCap()"
-
-  private val showMagLambda: (Map<String, List<String?>>) -> String =
-    {
-      if (it.isEmpty()) {
-        showMagAll()
-      } else {
-        if (it.containsKey(showMagShowZeroKey)) {
-          val bVal = it[showMagShowZeroKey]
-
-          if (bVal == null
-            || bVal.isEmpty()
-          ) {
-            ERROR_STRING
-          } else {
-            when (bVal[0]) {
-              TRUTH_VALUE -> showMagZeroCap()
-              FALSE_VALUE -> ERROR_STRING
-              else -> ERROR_STRING
-            }
-          }
-        } else {
-          showMagAll()
-        }
-      }
-    }
-
-  private val addToMagLambda: (Map<String, List<String?>>) -> String =
-    {
-      "TODO"
-    }
+  private fun showStockroomContextCreate() {
+    contextCreate(ShowStockroom.path, ShowStockroom.lambda)
+  }
 
   private lateinit var server: HttpServer
 
@@ -104,12 +64,8 @@ object JsonServer {
     }
   }
 
-  private fun createShowMagContext() {
-    contextCreate(showMagPath, showMagLambda)
-  }
-
-  fun createAddToMagContext() {
-    contextCreate(addToMagPath, addToMagLambda)
+  private fun createContexts() {
+    showStockroomContextCreate()
   }
 
   @Throws(IOException::class)
@@ -118,8 +74,7 @@ object JsonServer {
     val adress = InetSocketAddress(/*"http://students.mimuw.edu.pl/, */PORT)
     server = HttpServer.create(adress, BACKLOG)
 
-    createShowMagContext()
-    createAddToMagContext()
+    createContexts()
 
     server.start()
   }
