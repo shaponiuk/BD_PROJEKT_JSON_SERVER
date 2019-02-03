@@ -80,7 +80,7 @@ class ShowStockroom {
       val stmt = con.createStatement()
       val rs = stmt.executeQuery(
         "SELECT * FROM zasoby" +
-            "WHERE stan = 0"
+            "WHERE stan = 0;"
       )
       return printRs(rs)
     }
