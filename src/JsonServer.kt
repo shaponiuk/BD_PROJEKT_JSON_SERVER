@@ -1,3 +1,4 @@
+import Queries.SQLConnection
 import Queries.ShowStockroom
 import com.sun.net.httpserver.HttpServer
 import java.io.UnsupportedEncodingException
@@ -28,16 +29,13 @@ private val ALLOWED_METHODS = "$METHOD_GET,$METHOD_OPTIONS"
 
 private lateinit var server: HttpServer
 
-private lateinit var con: Connection
-
 private fun dbConnect() {
   Class.forName("oracle.jdbc.driver.OracleDriver")
-  con = DriverManager.getConnection(
+  SQLConnection.con = DriverManager.getConnection(
     "jdbc:oracle:thin:@labora.mimuw.edu.pl:1521:LABS",
     "sh394322",
     "Klocked0011"
   )
-  con.close()
 }
 
 private fun showStockroomContextCreate() {

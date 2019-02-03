@@ -1,5 +1,7 @@
 package Queries
 
+import Queries.SQLConnection.Companion.con
+
 class ShowStockroom {
   companion object {
     val path = "/show_stock"
@@ -31,7 +33,14 @@ class ShowStockroom {
 
     private val showStockShowZeroKey = "show_zero"
 
-    private fun showStockAll(): String = "TODO"
+    private fun showStockAll(): String {
+      val stmt = con.createStatement()
+      val rs = stmt.execute("""
+          SELECT * FROM zasoby;
+        """)
+
+      return rs.toString()
+    }
 
     private fun showStockZero(): String = "TODO"
   }
