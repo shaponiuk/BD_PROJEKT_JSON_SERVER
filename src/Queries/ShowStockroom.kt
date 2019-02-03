@@ -37,7 +37,7 @@ class ShowStockroom {
                     val parsedInt = Integer.parseInt(list[0])
                     showStockById(parsedInt)
                   } catch (e: NumberFormatException) {
-                    ERROR_STRING
+                    "NUMBER_FORMAT_EXCEPTION"
                   }
                 }
               }
