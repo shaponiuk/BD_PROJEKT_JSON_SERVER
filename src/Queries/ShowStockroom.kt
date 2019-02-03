@@ -37,7 +37,16 @@ class ShowStockroom {
       val stmt = con.createStatement()
       val rs = stmt.executeQuery("SELECT * FROM zasoby")
 
-      return rs.toString()
+      var testOutput = ""
+
+      while (rs.next()) {
+        testOutput += rs.getInt(0)
+        testOutput += rs.getString(1)
+        testOutput += rs.getInt(2)
+        testOutput += "\n"
+      }
+
+      return testOutput
     }
 
     private fun showStockZero(): String = "TODO"
