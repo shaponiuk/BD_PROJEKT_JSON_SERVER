@@ -2,7 +2,7 @@ package Queries
 
 class ShowStockroom {
   companion object {
-    val path = "/show_stockroom"
+    val path = "/show_stock"
 
     val lambda: (Map<String, List<String?>>) -> String =
     {

@@ -5,9 +5,10 @@ import java.net.InetSocketAddress
 import java.net.URI
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
+import java.sql.Connection
+import java.sql.DriverManager
 import java.util.*
 
-//object JsonServer {
 private val PORT = 8001
 private val BACKLOG = 1
 
@@ -25,11 +26,23 @@ private val METHOD_GET = "GET"
 private val METHOD_OPTIONS = "OPTIONS"
 private val ALLOWED_METHODS = "$METHOD_GET,$METHOD_OPTIONS"
 
+private lateinit var server: HttpServer
+
+private lateinit var con: Connection
+
+private fun dbConnect() {
+  Class.forName("oracle.jdbc.driver.OracleDriver")
+  con = DriverManager.getConnection(
+    "jdbc:oracle:thin:@labora.mimuw.edu.pl:1521:LABS",
+    "sh394322",
+    "Klocked0011"
+  )
+  con.close()
+}
+
 private fun showStockroomContextCreate() {
   contextCreate(ShowStockroom.path, ShowStockroom.lambda)
 }
-
-private lateinit var server: HttpServer
 
 private fun contextCreate(path: String, lambda: (Map<String, List<String?>>) -> String) {
   server.createContext(path) { he ->
@@ -93,14 +106,13 @@ private fun decodeUrlComponent(urlComponent: String): String {
   } catch (ex: UnsupportedEncodingException) {
     throw InternalError(ex)
   }
-
 }
-//}
 
-//@JvmStatic
 fun main(args: Array<String>) {
   val adress = InetSocketAddress(/*"http://students.mimuw.edu.pl/, */PORT)
   server = HttpServer.create(adress, BACKLOG)
+
+  dbConnect()
 
   createContexts()
 
