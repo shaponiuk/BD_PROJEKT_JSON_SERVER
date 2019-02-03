@@ -79,8 +79,8 @@ class ShowStockroom {
     private fun showStockZero(): String {
       val stmt = con.createStatement()
       val rs = stmt.executeQuery(
-        "SELECT * FROM zasoby" +
-            "WHERE stan = 0;"
+        """SELECT * FROM zasoby
+           WHERE stan = 0"""
       )
       return printRs(rs)
     }
@@ -88,8 +88,7 @@ class ShowStockroom {
     private fun showStockNonZero(): String {
       val stmt = con.createStatement()
       val rs = stmt.executeQuery(
-        "SELECT * FROM zasoby" +
-            "WHERE stan > 0"
+        """SELECT * FROM zasoby WHERE stan > 0"""
       )
       return printRs(rs)
     }
@@ -97,8 +96,7 @@ class ShowStockroom {
     private fun showStockById(id: Int): String {
       val stmt = con.createStatement()
       val rs = stmt.executeQuery(
-        "SELECT * FROM zasoby" +
-            "WHERE id = $id"
+        """SELECT * FROM zasoby WHERE id = $id"""
       )
       return printRs(rs)
     }
