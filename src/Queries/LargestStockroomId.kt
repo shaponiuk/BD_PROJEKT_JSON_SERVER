@@ -14,7 +14,12 @@ class LargestStockroomId {
           SELECT max(id) FROM zasoby
         """.trimIndent()
         )
-        "{\"max_id\" : ${rs.getInt(1)}}"
+
+        var max_id = -1
+        if (rs.next())
+          max_id = rs.getInt(1)
+
+        "{\"max_id\" : ${max_id}}"
       }
   }
 }
