@@ -1,3 +1,5 @@
+import Queries.AddToStockroom
+import Queries.LargestStockroomId
 import Queries.SQLConnection
 import Queries.ShowStockroom
 import com.sun.net.httpserver.HttpServer
@@ -38,10 +40,6 @@ private fun dbConnect() {
   )
 }
 
-private fun showStockroomContextCreate() {
-  contextCreate(ShowStockroom.path, ShowStockroom.lambda)
-}
-
 private fun contextCreate(path: String, lambda: (Map<String, List<String?>>) -> String) {
   server.createContext(path) { he ->
     try {
@@ -73,8 +71,22 @@ private fun contextCreate(path: String, lambda: (Map<String, List<String?>>) -> 
   }
 }
 
+private fun showStockroomContextCreate() {
+  contextCreate(ShowStockroom.path, ShowStockroom.lambda)
+}
+
+private fun addToStockContextCreate() {
+  contextCreate(AddToStockroom.path, AddToStockroom.lambda)
+}
+
+private fun largestStockroomIdContextCreate() {
+  contextCreate(LargestStockroomId.path, LargestStockroomId.lambda)
+}
+
 private fun createContexts() {
   showStockroomContextCreate()
+  addToStockContextCreate()
+  largestStockroomIdContextCreate()
 }
 
 private fun getRequestParameters(requestUri: URI): LinkedHashMap<String, ArrayList<String?>> {
