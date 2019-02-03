@@ -40,9 +40,9 @@ class ShowStockroom {
       var testOutput = ""
 
       while (rs.next()) {
-        testOutput += rs.getInt(0)
-        testOutput += rs.getString(1)
-        testOutput += rs.getInt(2)
+        testOutput += rs.getInt(1)
+        testOutput += rs.getString(2)
+        testOutput += rs.getInt(3)
         testOutput += "\n"
       }
 
