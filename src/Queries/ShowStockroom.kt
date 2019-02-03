@@ -1,12 +1,19 @@
 package Queries
 
+import Queries.Constants.Companion.ERROR_STRING
 import Queries.SQLConnection.Companion.con
+import java.lang.NumberFormatException
+import java.sql.ResultSet
 
 class ShowStockroom {
   companion object {
     private val id = "id"
     private val nazwa = "nazwa"
     private val stan = "stan"
+
+    private val showStockShowZeroKey = "show_zero"
+    private val showStockShowNonZeroKey = "show_nonzero"
+    private val findByIdKey = "find_by_id"
 
     val path = "/show_stock"
 
@@ -15,57 +22,85 @@ class ShowStockroom {
         if (it.isEmpty()) {
           showStockAll()
         } else {
-          if (it.containsKey(showStockShowZeroKey)) {
-            val bVal = it[showStockShowZeroKey]
-
-            if (bVal == null
-              || bVal.isEmpty()
-            ) {
-              Constants.ERROR_STRING
-            } else {
-              when (bVal[0]) {
-                Constants.TRUTH_VALUE -> showStockZero()
-                Constants.FALSE_VALUE -> Constants.ERROR_STRING
-                else -> Constants.ERROR_STRING
-              }
-            }
+          if (it.values.size > 1) {
+            ERROR_STRING
           } else {
-            showStockAll()
+            if (it.containsKey(showStockShowZeroKey)) {
+              showStockZero()
+            } else if (it.containsKey(showStockShowNonZeroKey)) {
+              showStockNonZero()
+            } else if (it.containsKey(findByIdKey)) {
+              val list = it[findByIdKey]
+              if (list != null) {
+                if (list.size == 1) {
+                  try {
+                    val parsedInt = Integer.parseInt(list[0])
+                    showStockById(parsedInt)
+                  } catch (e: NumberFormatException) {
+                    ERROR_STRING
+                  }
+                }
+              }
+              ERROR_STRING
+            } else {
+              ERROR_STRING
+            }
           }
         }
       }
 
-    private val showStockShowZeroKey = "show_zero"
-
-    private fun showStockAll(): String {
-      val stmt = con.createStatement()
-      val rs = stmt.executeQuery("SELECT * FROM zasoby")
-
-      var testOutput = "["
+    private fun printRs(rs: ResultSet): String {
+      var output = "["
 
       var first = true
 
       while (rs.next()) {
         if (!first)
-          testOutput += ", "
+          output += ", "
         else
           first = false
 
-        testOutput += "{"
-        testOutput += "\"" + id + "\" : "
-        testOutput += rs.getInt(id).toString() + ", "
-        testOutput += "\"" + nazwa + "\" : "
-        testOutput += rs.getString(nazwa) + ", "
-        testOutput += "\"" + stan + "\" : "
-        testOutput += rs.getInt(stan)
-        testOutput += "}"
+        output += "{\"$id\" : ${rs.getInt(id)}, " +
+            "\"$nazwa\" : \"${rs.getString(nazwa)}\", " +
+            "\"$stan\" : ${rs.getInt(stan)}}"
       }
 
-      testOutput += "]"
+      output += "]"
 
-      return testOutput
+      return output
     }
 
-    private fun showStockZero(): String = "TODO"
+    private fun showStockAll(): String {
+      val stmt = con.createStatement()
+      val rs = stmt.executeQuery("SELECT * FROM zasoby")
+      return printRs(rs);
+    }
+
+    private fun showStockZero(): String {
+      val stmt = con.createStatement()
+      val rs = stmt.executeQuery(
+        "SELECT * FROM zasoby" +
+            "WHERE stan = 0"
+      )
+      return printRs(rs)
+    }
+
+    private fun showStockNonZero(): String {
+      val stmt = con.createStatement()
+      val rs = stmt.executeQuery(
+        "SELECT * FROM zasoby" +
+            "WHERE stan > 0"
+      )
+      return printRs(rs)
+    }
+
+    private fun showStockById(id: Int): String {
+      val stmt = con.createStatement()
+      val rs = stmt.executeQuery(
+        "SELECT * FROM zasoby" +
+            "WHERE id = $id"
+      )
+      return printRs(rs)
+    }
   }
 }
