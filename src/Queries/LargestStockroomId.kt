@@ -4,7 +4,7 @@ import Queries.SQLConnection.Companion.con
 
 class LargestStockroomId {
   companion object {
-    val path = "largest_stockroom_id"
+    val path = "/largest_stockroom_id"
 
     val lambda: (Map<String, List<String?>>) -> String =
       {
