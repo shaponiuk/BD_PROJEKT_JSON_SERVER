@@ -32,7 +32,7 @@ class ShowStockroom {
             } else if (it.containsKey(findByIdKey)) {
               val list = it[findByIdKey]
               if (list != null) {
-                if (list.size == 1) {
+                if (list.size > 0) {
                   try {
                     val parsedInt = Integer.parseInt(list[0])
                     showStockById(parsedInt)
@@ -41,17 +41,15 @@ class ShowStockroom {
                   }
                 }
               }
-              ERROR_STRING
-            } else {
-              ERROR_STRING
             }
           }
+
+          ERROR_STRING
         }
       }
 
     private fun printRs(rs: ResultSet): String {
       var output = "["
-
       var first = true
 
       while (rs.next()) {
