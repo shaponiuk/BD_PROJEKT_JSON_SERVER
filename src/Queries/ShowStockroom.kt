@@ -35,9 +35,7 @@ class ShowStockroom {
 
     private fun showStockAll(): String {
       val stmt = con.createStatement()
-      val rs = stmt.execute("""
-          SELECT * FROM zasoby;
-        """)
+      val rs = stmt.execute("SELECT * FROM zasoby")
 
       return rs.toString()
     }
