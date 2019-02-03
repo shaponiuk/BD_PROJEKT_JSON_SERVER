@@ -34,17 +34,22 @@ class ShowStockroom {
               if (list != null) {
                 if (list.size > 0) {
                   try {
+                    list[0]
                     val parsedInt = Integer.parseInt(list[0])
                     showStockById(parsedInt)
                   } catch (e: NumberFormatException) {
                     "NUMBER_FORMAT_EXCEPTION"
                   }
+                } else {
+                  "EMPTY LIST"
                 }
+              } else {
+                "NULL LIST"
               }
+            } else {
+              ERROR_STRING
             }
           }
-
-          ERROR_STRING
         }
       }
 
