@@ -50,7 +50,6 @@ CREATE TABLE uslugi (
         status_id int NOT NULL,
         pacjenci_PESEL int NOT NULL,
         lekarze_id int NOT NULL,
-        nr_wizyty int NOT NULL,
         data date,
         szablon_uslug_id int NOT NULL
 );

@@ -72,7 +72,7 @@ class UpdateStock {
     fun addToStock(name: String?, ammount: String?): String {
       if (checkArguments(name, ammount)) {
         val stmt = con.createStatement()
-        val rs = stmt.executeQuery(
+        stmt.executeQuery(
           """
             UPDATE zasoby
             SET stan = stan + $ammount
@@ -80,9 +80,7 @@ class UpdateStock {
           """.trimIndent()
         )
 
-        if (rs.rowUpdated()) {
-          return SUCCESS_STRING
-        }
+        return SUCCESS_STRING
       }
 
       return ERROR_STRING

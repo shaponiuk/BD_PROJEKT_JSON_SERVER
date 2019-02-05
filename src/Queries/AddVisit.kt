@@ -1,6 +1,8 @@
 package Queries
 
 import Queries.Constants.Companion.ERROR_STRING
+import Queries.Constants.Companion.SUCCESS_STRING
+import Queries.LargestVisitId.Companion.getLargestVisitId
 import Queries.SQLConnection.Companion.con
 import java.lang.NumberFormatException
 import java.util.*
@@ -82,7 +84,7 @@ class AddVisit {
         count = rs.getInt(1)
       }
 
-      return count == 0
+      return count > 0
     }
 
     private fun checkPesel(pesel: String): Boolean {
@@ -105,13 +107,62 @@ class AddVisit {
         count = rs.getInt(1)
       }
 
-      return count == 0
+      return count > 0
+    }
+
+    private fun checkDoctorId(doctorId: String): Boolean {
+      try {
+        Integer.parseInt(doctorId)
+      } catch (e: NumberFormatException) {
+        return false
+      }
+
+      val stmt = con.createStatement()
+      val rs = stmt.executeQuery(
+        """
+          SELECT count(*) FROM lekarze WHERE id = '$doctorId'
+        """.trimIndent()
+      )
+
+      var count = 0
+
+      if (rs.next()) {
+        count = rs.getInt(1)
+      }
+
+      return count > 0
+    }
+
+    private fun checkDate(date: String): Boolean {
+      if (date.contains('\'')
+        || date.contains(';')
+        || date.length > 11
+      ) {
+        return false
+      } else {
+        val stmt = con.createStatement()
+        val rs = stmt.executeQuery(
+          """
+            SELECT 1 FROM dual WHERE '$date' > current_date - 1
+          """.trimIndent()
+        )
+
+        var count = 0
+
+        if (rs.next()) {
+          count = rs.getInt(1)
+        }
+
+        return count == 1
+      }
     }
 
     // Assumes Strings are not null
     private fun otherChecks(argList: List<String?>): Boolean {
       return checkServiceId(argList[0]!!)
-      && checkPesel(argList[1]!!)
+          && checkPesel(argList[1]!!)
+          && checkDoctorId(argList[2]!!)
+          && checkDate(argList[3]!!)
     }
 
     private fun checkArguments(argList: List<String?>): Boolean {
@@ -123,7 +174,19 @@ class AddVisit {
 
     private fun addVisit(argList: List<String?>): String {
       if (checkArguments(argList)) {
+        val id = getLargestVisitId() + 1
+        val visitStatusId = 0
 
+        val stmt = con.createStatement()
+        stmt.executeQuery(
+          """
+            INSERT INTO uslugi
+            VALUES ($id, $visitStatusId, ${argList[1]},
+            ${argList[2]}, '${argList[3]}', ${argList[0]})
+          """.trimIndent()
+        )
+
+        return SUCCESS_STRING
       }
 
       return ERROR_STRING
