@@ -17,7 +17,7 @@ class UpdateStock {
         if (it.size < 2) {
           "TOO_FEW_ARGUMENTS"
         } else if (!it.containsKey(nameKey)
-          || it.containsKey(ammountKey)
+          || !it.containsKey(ammountKey)
         ) {
           "ARGUMENT(S)_MISSING"
         } else {
