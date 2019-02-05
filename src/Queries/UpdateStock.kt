@@ -80,7 +80,7 @@ class UpdateStock {
           """.trimIndent()
         )
 
-        if (rs.next() && rs.rowUpdated()) {
+        if (rs.rowUpdated()) {
           return SUCCESS_STRING
         }
       }
