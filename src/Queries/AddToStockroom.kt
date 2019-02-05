@@ -47,7 +47,7 @@ class AddToStockroom {
       val stmt = con.createStatement()
       val rs = stmt.executeQuery(
         """
-        SELECT count(*) FROM zasoby WHERE nazwa = $name
+        SELECT count(*) FROM zasoby WHERE nazwa = '$name'
         """.trimIndent()
       )
 
