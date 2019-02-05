@@ -2,6 +2,7 @@ package Queries
 
 import Queries.Constants.Companion.ERROR_STRING
 import Queries.Constants.Companion.SUCCESS_STRING
+import Queries.LargestStockroomId.Companion.getLargestId
 import Queries.SQLConnection.Companion.con
 import java.lang.NumberFormatException
 
@@ -42,13 +43,31 @@ class AddToStockroom {
         }
       }
 
+    private fun checkIfNameExists(name: String): Boolean {
+      val stmt = con.createStatement()
+      val rs = stmt.executeQuery(
+        """
+        SELECT count(*) FROM zasoby WHERE nazwa = $name
+        """.trimIndent()
+      )
+
+      if (rs.next()) {
+        val count = rs.getInt(1)
+        return count == 0
+      } else {
+        return false
+      }
+    }
 
     private fun checkName(name: String): Boolean {
       if (name.contains('\'')
-      || name.contains(';')) {
+        || name.contains(';')
+      ) {
+        return false
+      } else if (!name.isNotEmpty()) {
         return false
       } else {
-        return name.isNotEmpty()
+        return checkIfNameExists(name)
       }
     }
 
@@ -66,13 +85,15 @@ class AddToStockroom {
 
     private fun addToStock(name: String, ammount: String): String {
       if (checkName(name) && checkAmmount(ammount)) {
-        val newId = Integer.parseInt(LargestStockroomId.lambda(HashMap())) + 1
+        val newId = getLargestId() + 1
 
         val stmt = con.createStatement()
-        stmt.executeQuery("""
+        stmt.executeQuery(
+          """
           INSERT INTO zasoby VALUES
           ($newId, $name, $ammount)
-        """.trimIndent())
+        """.trimIndent()
+        )
 
         return SUCCESS_STRING
       } else {

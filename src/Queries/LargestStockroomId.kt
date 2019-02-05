@@ -8,18 +8,22 @@ class LargestStockroomId {
 
     val lambda: (Map<String, List<String?>>) -> String =
       {
-        val stmt = con.createStatement()
-        val rs = stmt.executeQuery(
-          """
+        "{\"max_id\" : ${getLargestId()}}"
+      }
+
+    fun getLargestId(): Int {
+      val stmt = con.createStatement()
+      val rs = stmt.executeQuery(
+        """
           SELECT max(id) FROM zasoby
         """.trimIndent()
-        )
+      )
 
-        var max_id = -1
-        if (rs.next())
-          max_id = rs.getInt(1)
-
-        "{\"max_id\" : ${max_id}}"
+      if (rs.next()) {
+        return rs.getInt(1)
+      } else {
+        return -1
       }
+    }
   }
 }
