@@ -91,7 +91,7 @@ class AddToStockroom {
         stmt.executeQuery(
           """
           INSERT INTO zasoby VALUES
-          ($newId, $name, $ammount)
+          ($newId, '$name', $ammount)
         """.trimIndent()
         )
 
