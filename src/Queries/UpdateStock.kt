@@ -74,7 +74,7 @@ class UpdateStock {
         val stmt = con.createStatement()
         val rs = stmt.executeQuery(
           """
-            UPDATE TABLE zasoby
+            UPDATE zasoby
             SET stan = stan + $ammount
             WHERE nazwa = '$name'
           """.trimIndent()
