@@ -71,6 +71,7 @@ class UpdateStock {
 
     fun addToStock(name: String?, ammount: String?): String {
       if (checkArguments(name, ammount)) {
+        System.out.println("YES")
         val stmt = con.createStatement()
         stmt.executeQuery(
           """
@@ -81,9 +82,9 @@ class UpdateStock {
         )
 
         return SUCCESS_STRING
+      } else {
+        return ERROR_STRING
       }
-
-      return ERROR_STRING
     }
   }
 }
