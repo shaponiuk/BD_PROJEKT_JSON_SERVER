@@ -1,7 +1,4 @@
-import Queries.AddToStockroom
-import Queries.LargestStockroomId
-import Queries.SQLConnection
-import Queries.ShowStockroom
+import Queries.*
 import com.sun.net.httpserver.HttpServer
 import java.io.UnsupportedEncodingException
 import java.net.InetSocketAddress
@@ -83,10 +80,15 @@ private fun largestStockroomIdContextCreate() {
   contextCreate(LargestStockroomId.path, LargestStockroomId.lambda)
 }
 
+private fun updateStockContextCreate() {
+  contextCreate(UpdateStock.path, UpdateStock.lambda)
+}
+
 private fun createContexts() {
   showStockroomContextCreate()
   addToStockContextCreate()
   largestStockroomIdContextCreate()
+  updateStockContextCreate()
 }
 
 private fun getRequestParameters(requestUri: URI): LinkedHashMap<String, ArrayList<String?>> {
