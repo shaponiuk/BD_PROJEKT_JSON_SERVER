@@ -13,4 +13,6 @@ INSERT INTO lekarze VALUES (1, 'Abraham', 'Lekarz', 1);
 
 INSERT INTO pacjenci VALUES (11111111111, 'Eugeniusz', 'Caweczynski');
 
+INSERT INTO szablon_uslug VALUES (0, 0, 'operacja wyrostka robaczkowego');
+
 COMMIT;

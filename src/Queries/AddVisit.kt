@@ -157,12 +157,75 @@ class AddVisit {
       }
     }
 
+    private fun checkSpecialisation(serviceId: String, doctorId: String): Boolean {
+      val stmtS = con.createStatement()
+      val rsS = stmtS.executeQuery(
+        """
+          SELECT specjalizacje_id FROM szablon_uslug
+          WHERE specjalizacje_id = $serviceId
+        """.trimIndent()
+      )
+
+      if (rsS.next()) {
+        val stmtD = con.createStatement()
+        val rsD = stmtD.executeQuery(
+          """
+            SELECT specjalizacje_id FROM lekarze
+            WHERE id = $doctorId
+          """.trimIndent()
+        )
+
+        return if (rsD.next()) {
+          rsS.getInt(1) == rsD.getInt(1)
+        } else {
+          false
+        }
+      } else {
+        return false
+      }
+    }
+
+    private fun checkStock(serviceId: String): Boolean {
+      val stmt1 = con.createStatement()
+      val rs = stmt1.executeQuery(
+        """
+          SELECT zasoby_id, ilosc
+          FROM szablon_zasobow_uslug
+          WHERE szablon_uslug_id = $serviceId
+        """.trimIndent()
+      )
+
+      while (rs.next()) {
+        val stockId = rs.getInt(1)
+        val ammount = rs.getInt(2)
+
+        val stmt2 = con.createStatement()
+        val rs2 = stmt2.executeQuery(
+          """
+            SELECT stan
+            FROM zasoby
+            WHERE id = $stockId
+          """.trimIndent()
+        )
+
+        while (rs2.next()) {
+          if (rs2.getInt(1) < ammount) {
+            return false
+          }
+        }
+      }
+
+      return true
+    }
+
     // Assumes Strings are not null
     private fun otherChecks(argList: List<String?>): Boolean {
       return checkServiceId(argList[0]!!)
           && checkPesel(argList[1]!!)
           && checkDoctorId(argList[2]!!)
           && checkDate(argList[3]!!)
+          && checkSpecialisation(argList[0]!!, argList[2]!!)
+          && checkStock(argList[0]!!)
     }
 
     private fun checkArguments(argList: List<String?>): Boolean {
@@ -170,6 +233,31 @@ class AddVisit {
         return false
 
       return otherChecks(argList)
+    }
+
+    private fun updateStock(serviceId: String) {
+      val stmt1 = con.createStatement()
+      val rs = stmt1.executeQuery(
+        """
+          SELECT zasoby_id, ilosc
+          FROM szablon_zasobow_uslug
+          WHERE szablon_uslug_id = $serviceId
+        """.trimIndent()
+      )
+
+      while (rs.next()) {
+        val stockId = rs.getInt(1)
+        val ammount = rs.getInt(2)
+
+        val stmt2 = con.createStatement()
+        stmt2.executeQuery(
+          """
+            UPDATE zasoby
+            SET stan = stan - $ammount
+            WHERE id = $stockId
+          """.trimIndent()
+        )
+      }
     }
 
     private fun addVisit(argList: List<String?>): String {
@@ -185,6 +273,8 @@ class AddVisit {
             ${argList[2]}, '${argList[3]}', ${argList[0]})
           """.trimIndent()
         )
+
+        updateStock(argList[0]!!)
 
         return SUCCESS_STRING
       }

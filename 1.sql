@@ -232,39 +232,6 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE TRIGGER czy_zasob_jest_zmniejsz_stan
-BEFORE INSERT OR UPDATE ON szablon_zasobow_uslug
-FOR EACH ROW
-DECLARE
-        zasoby_count int;
-        czy_starczy int;
-BEGIN
-        SELECT count(*)
-        INTO zasoby_count
-        FROM zasoby
-        WHERE id = :NEW.zasoby_id;
-
-        IF zasoby_count = 0 THEN
-                raise_application_error(-20000, 'Nie ma takiego zasobu w bazie');
-        END IF;
-
-        SELECT count(*)
-        INTO czy_starczy
-        FROM zasoby
-        WHERE id = :NEW.szablon_uslug_id
-        AND stan >= :NEW.ilosc;
-
-        IF czy_starczy = 0 THEN
-                raise_application_error(-20000, 'Za mało zasobu');
-        END IF;
-
-        UPDATE zasoby
-        SET stan = stan - :NEW.ilosc
-        WHERE id = :NEW.zasoby_id;
-
-END;
-/
-
 CREATE OR REPLACE TRIGGER usuwanie_statusu
 BEFORE DELETE ON statusy_uslug
 FOR EACH ROW
