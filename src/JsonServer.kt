@@ -88,12 +88,17 @@ private fun addVisitContextCreate() {
   contextCreate(AddVisit.path, AddVisit.lambda)
 }
 
+private fun showVisitsContextCreate() {
+  contextCreate(ShowVisits.path, ShowVisits.lambda)
+}
+
 private fun createContexts() {
   showStockroomContextCreate()
   addToStockContextCreate()
   largestStockroomIdContextCreate()
   updateStockContextCreate()
   addVisitContextCreate()
+  showVisitsContextCreate()
 }
 
 private fun getRequestParameters(requestUri: URI): LinkedHashMap<String, ArrayList<String?>> {
