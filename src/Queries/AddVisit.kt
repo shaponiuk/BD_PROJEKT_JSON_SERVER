@@ -154,13 +154,13 @@ class AddVisit {
         System.out.println("date has \\ or ;")
         return false
       } else {
-        System.out.println("data to $date")
         val stmt = con.createStatement()
-        val rs = stmt.executeQuery(
+        val qs =
           """
             SELECT 1 FROM dual WHERE '$date' > current_date - 1
           """.trimIndent()
-        )
+        System.out.println(qs)
+        val rs = stmt.executeQuery(qs)
 
         var count = 0
 
