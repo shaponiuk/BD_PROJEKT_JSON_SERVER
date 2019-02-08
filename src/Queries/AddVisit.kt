@@ -94,7 +94,7 @@ class AddVisit {
 
     private fun checkPesel(pesel: String): Boolean {
       try {
-        Integer.parseInt(pesel)
+        pesel.toLong()
       } catch (e: NumberFormatException) {
         System.out.println("pesel not int")
         return false
