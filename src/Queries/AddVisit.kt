@@ -154,6 +154,7 @@ class AddVisit {
         System.out.println("date has \\ or ;")
         return false
       } else {
+        System.out.println("data to $date")
         val stmt = con.createStatement()
         val rs = stmt.executeQuery(
           """
