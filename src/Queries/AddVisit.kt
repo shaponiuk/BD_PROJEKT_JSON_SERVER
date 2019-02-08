@@ -157,7 +157,7 @@ class AddVisit {
         val stmt = con.createStatement()
         val qs =
           """
-            SELECT 1 FROM dual WHERE TO_DATE('$date', 'DD-MM-YYYY') > current_date - 1
+            SELECT 1 FROM dual WHERE TO_DATE('$date', 'dd/mm/yyyy  ') > current_date - 1
           """.trimIndent()
         System.out.println(qs)
         val rs = stmt.executeQuery(qs)
