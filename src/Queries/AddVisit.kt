@@ -57,6 +57,7 @@ class AddVisit {
     private fun checkNotNull(argList: List<String?>): Boolean {
       for (arg in argList) {
         if (arg == null) {
+          System.out.println("NULL ARG")
           return false
         }
       }
@@ -68,6 +69,7 @@ class AddVisit {
       try {
         Integer.parseInt(id)
       } catch (e: NumberFormatException) {
+        System.out.println("SERVICE_ID_NOT_NUMBER")
         return false
       }
 
@@ -84,6 +86,9 @@ class AddVisit {
         count = rs.getInt(1)
       }
 
+      if (count == 0)
+        System.out.println("no valid service ids in the base")
+
       return count > 0
     }
 
@@ -91,6 +96,7 @@ class AddVisit {
       try {
         Integer.parseInt(pesel)
       } catch (e: NumberFormatException) {
+        System.out.println("pesel not int")
         return false
       }
 
@@ -107,6 +113,9 @@ class AddVisit {
         count = rs.getInt(1)
       }
 
+      if (count == 0)
+        System.out.println("no valid pesels in the base")
+
       return count > 0
     }
 
@@ -114,6 +123,7 @@ class AddVisit {
       try {
         Integer.parseInt(doctorId)
       } catch (e: NumberFormatException) {
+        System.out.println("doctorId not int")
         return false
       }
 
@@ -130,6 +140,9 @@ class AddVisit {
         count = rs.getInt(1)
       }
 
+      if (count == 0)
+        System.out.println("no valid doctorIds in the base")
+
       return count > 0
     }
 
@@ -138,6 +151,7 @@ class AddVisit {
         || date.contains(';')
         || date.length > 11
       ) {
+        System.out.println("date has \\ or ;")
         return false
       } else {
         val stmt = con.createStatement()
@@ -153,6 +167,9 @@ class AddVisit {
           count = rs.getInt(1)
         }
 
+        if (count != 0)
+          System.out.println("too early date")
+
         return count == 1
       }
     }
@@ -162,7 +179,7 @@ class AddVisit {
       val rsS = stmtS.executeQuery(
         """
           SELECT specjalizacje_id FROM szablon_uslug
-          WHERE specjalizacje_id = $serviceId
+          WHERE id = $serviceId
         """.trimIndent()
       )
 
@@ -176,7 +193,12 @@ class AddVisit {
         )
 
         return if (rsD.next()) {
-          rsS.getInt(1) == rsD.getInt(1)
+          val specLeft = rsS.getInt(1)
+          val specRight = rsD.getInt(1)
+
+          if (specLeft != specRight)
+            System.out.println("serviceId does not match doctor's specialisation")
+          specLeft == specRight
         } else {
           false
         }
@@ -210,6 +232,7 @@ class AddVisit {
 
         while (rs2.next()) {
           if (rs2.getInt(1) < ammount) {
+            System.out.println("too few elements")
             return false
           }
         }

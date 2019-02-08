@@ -1,4 +1,4 @@
-LTER TABLE uslugi
+ALTER TABLE uslugi
 DROP CONSTRAINT status_uslugi;
 
 ALTER TABLE uslugi
