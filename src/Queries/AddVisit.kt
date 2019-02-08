@@ -157,7 +157,7 @@ class AddVisit {
         val stmt = con.createStatement()
         val qs =
           """
-            SELECT 1 FROM dual WHERE TO_DATE('${date.subSequence(0, 9)}', 'dd/mm/yyyy  ') > current_date - 1
+            SELECT 1 FROM dual WHERE TO_DATE('${date.subSequence(0, 10)}', 'dd/mm/yyyy  ') > current_date - 1
           """.trimIndent()
         System.out.println(qs)
         val rs = stmt.executeQuery(qs)
@@ -168,7 +168,7 @@ class AddVisit {
           count = rs.getInt(1)
         }
 
-        if (count != 0)
+        if (count == 0)
           System.out.println("too early date")
 
         return count == 1
