@@ -15,6 +15,6 @@ INSERT INTO pacjenci VALUES (11111111111, 'Eugeniusz', 'Caweczynski');
 
 INSERT INTO szablon_uslug VALUES (0, 0, 'operacja wyrostka robaczkowego');
 
-INSERT INTO szablon_zasob_uslug VALUES (0, 0, 3);
+INSERT INTO szablon_zasobow_uslug VALUES (0, 0, 3);
 
 COMMIT;
