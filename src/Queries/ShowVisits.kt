@@ -35,11 +35,11 @@ class ShowVisits {
           first = false
         }
 
-        returnString += "{\"id\" : ${rs.getInt(1)} " +
-            "\"status_id\" : ${rs.getInt(2)} " +
-            "\"pacjenci_PESEL\" : ${rs.getLong(3)} " +
-            "\"lekarze_id\" : ${rs.getInt(4)} " +
-            "\"data\" : ${rs.getDate(5)} " +
+        returnString += "{\"id\" : ${rs.getInt(1)}, " +
+            "\"status_id\" : ${rs.getInt(2)}, " +
+            "\"pacjenci_PESEL\" : ${rs.getLong(3)}, " +
+            "\"lekarze_id\" : ${rs.getInt(4)}, " +
+            "\"data\" : ${rs.getDate(5)}, " +
             "\"szablon_uslug_id\" : ${rs.getInt(6)}}"
       }
 
