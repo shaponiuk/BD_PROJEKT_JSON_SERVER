@@ -35,7 +35,7 @@ class ShowPatients {
           first = false
         }
 
-        rStr += "{\"PESEL\" : ${rs.getInt(1)}, " +
+        rStr += "{\"PESEL\" : ${rs.getLong(1)}, " +
             "\"imie\" : ${rs.getString(2)}, " +
             "\"nazwisko\" : ${rs.getString(3)}}"
       }
