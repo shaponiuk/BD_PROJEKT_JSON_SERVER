@@ -1,5 +1,6 @@
 package Queries
 
+import Queries.CheckArgument.Companion.checkArgument
 import Queries.Constants.Companion.ERROR_STRING
 import Queries.SQLConnection.Companion.con
 import java.sql.ResultSet
@@ -38,19 +39,7 @@ class ShowDoctors {
         }
       }
 
-    private fun checkArgument(map: Map<String, List<String?>>, key: String): Boolean {
-      val argList = map[key]
 
-      return if (argList != null) {
-        if (!argList.isEmpty()) {
-          return argList[0] != null
-        } else {
-          false
-        }
-      } else {
-        false
-      }
-    }
 
     private fun printRs(rs: ResultSet): String {
       var rStr = "["
