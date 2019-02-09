@@ -78,6 +78,39 @@ CREATE TABLE szablon_uslug (
         nazwa varchar2(255) NOT NULL
 );
 
+CREATE UNIQUE INDEX statusy_uslug_id
+ON statusy_uslug(id);
+
+CREATE UNIQUE INDEX lekarze_id
+ON lekarze(id);
+
+CREATE INDEX lekarze_specjalizacje_id
+ON lekarze(specjalizacje_id);
+
+CREATE UNIQUE INDEX specjalizacje_id
+ON specjalizacje(id);
+
+CREATE UNIQUE INDEX uslugi_id
+ON uslugi(id);
+
+CREATE INDEX uslugi_doctor_id
+ON uslugi(lekarze_id);
+
+CREATE INDEX uslugi_pacjenci_pesel
+ON uslugi(pacjenci_PESEL);
+
+CREATE UNIQUE INDEX pacjenci_pesel
+ON pacjenci(PESEL);
+
+CREATE UNIQUE INDEX zasoby_id
+ON zasoby(id);
+
+CREATE INDEX szablon_zasobow_uslug_szid
+ON szablon_zasobow_uslug(szablon_uslug_id);
+
+CREATE UNIQUE INDEX szablon_uslug_id
+ON szablon_uslug(id);
+
 ALTER TABLE uslugi
 ADD CONSTRAINT status_uslugi
   FOREIGN KEY (status_id)
