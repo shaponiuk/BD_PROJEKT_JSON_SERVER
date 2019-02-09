@@ -54,7 +54,7 @@ class ShowSpecialisations {
       val rs = stmt.executeQuery(
         """
           SELECT *
-          FROM specializacje
+          FROM specjalizacje
           WHERE id = $id
         """.trimIndent()
       )
@@ -66,7 +66,7 @@ class ShowSpecialisations {
       val stmt = con.createStatement()
       val rs = stmt.executeQuery(
         """
-          SELECT * FROM specializacje
+          SELECT * FROM specjalizacje
         """.trimIndent()
       )
 
