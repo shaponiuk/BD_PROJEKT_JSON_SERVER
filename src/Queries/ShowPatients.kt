@@ -1,6 +1,7 @@
 package Queries
 
 import Queries.CheckArgument.Companion.checkArgument
+import Queries.CheckArgument.Companion.checkInteger
 import Queries.Constants.Companion.ERROR_STRING
 import Queries.SQLConnection.Companion.con
 import java.sql.ResultSet
@@ -14,7 +15,8 @@ class ShowPatients {
     val lambda: (Map<String, List<String?>>) -> String =
       {
         if (it.containsKey(byPeselKey)) {
-          if (checkArgument(it, byPeselKey)) {
+          if (checkArgument(it, byPeselKey)
+            && checkInteger(it, byPeselKey)) {
             showPatientByPesel(it)
           } else {
             ERROR_STRING

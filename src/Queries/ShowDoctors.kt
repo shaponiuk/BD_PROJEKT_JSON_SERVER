@@ -1,6 +1,7 @@
 package Queries
 
 import Queries.CheckArgument.Companion.checkArgument
+import Queries.CheckArgument.Companion.checkInteger
 import Queries.Constants.Companion.ERROR_STRING
 import Queries.SQLConnection.Companion.con
 import java.sql.ResultSet
@@ -15,9 +16,11 @@ class ShowDoctors {
     val lambda: (Map<String, List<String?>>) -> String =
       {
         if (it.containsKey(withSpecialisationKey)) {
-          if (checkArgument(it, withSpecialisationKey)) {
+          if (checkArgument(it, withSpecialisationKey)
+            && checkInteger(it, withSpecialisationKey)) {
             if (it.containsKey(byIdKey)) {
-              if (checkArgument(it, byIdKey)) {
+              if (checkArgument(it, byIdKey)
+              && checkInteger(it, byIdKey)) {
                 showDoctorsWithSpecialisationById(it)
               } else {
                 ERROR_STRING
@@ -29,7 +32,8 @@ class ShowDoctors {
             ERROR_STRING
           }
         } else if (it.containsKey(byIdKey)) {
-          if (checkArgument(it, byIdKey)) {
+          if (checkArgument(it, byIdKey)
+            && checkInteger(it, byIdKey)) {
             showDoctorsById(it)
           } else {
             ERROR_STRING

@@ -1,5 +1,6 @@
 package Queries
 
+import Queries.CheckArgument.Companion.checkInteger
 import Queries.Constants.Companion.SUCCESS_STRING
 import Queries.SQLConnection.Companion.con
 
@@ -69,8 +70,13 @@ class UpdateVisit {
           val statusId = statusIdList[0]
 
           if (visitId != null && statusId != null) {
-            checkIfVisitExists(visitId)
-                && checkIfStatusExists(statusId)
+            if (checkInteger(map, visitIdKey)
+              && checkInteger(map, statusIdKey)) {
+              checkIfVisitExists(visitId)
+                  && checkIfStatusExists(statusId)
+            } else {
+              false
+            }
           } else {
             false
           }
