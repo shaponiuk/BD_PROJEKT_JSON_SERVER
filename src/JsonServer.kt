@@ -96,6 +96,10 @@ private fun updateVisitContextCreate() {
   contextCreate(UpdateVisit.path, UpdateVisit.lambda)
 }
 
+private fun showDoctorsContextCreate() {
+  contextCreate(ShowDoctors.path, ShowDoctors.lambda)
+}
+
 private fun createContexts() {
   showStockroomContextCreate()
   addToStockContextCreate()
@@ -104,6 +108,7 @@ private fun createContexts() {
   addVisitContextCreate()
   showVisitsContextCreate()
   updateVisitContextCreate()
+  showDoctorsContextCreate()
 }
 
 private fun getRequestParameters(requestUri: URI): LinkedHashMap<String, ArrayList<String?>> {
