@@ -39,7 +39,7 @@ class ShowVisits {
             "\"status_id\" : ${rs.getInt(2)}, " +
             "\"pacjenci_PESEL\" : ${rs.getLong(3)}, " +
             "\"lekarze_id\" : ${rs.getInt(4)}, " +
-            "\"data\" : \"${rs.getString(5)}\", " +
+            "\"data\" : \"${rs.getString(5).substring(2, 10)}\", " +
             "\"szablon_uslug_id\" : ${rs.getInt(6)}}"
       }
 
