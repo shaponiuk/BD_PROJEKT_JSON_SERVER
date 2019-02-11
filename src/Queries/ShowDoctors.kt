@@ -59,7 +59,7 @@ class ShowDoctors {
         rStr += "{\"id\" : ${rs.getInt(1)}, " +
             "\"imie\" : \"${rs.getString(2)}\", " +
             "\"nazwisko\" : \"${rs.getString(3)}\", " +
-            "\"specjalizacje_id\" : \"${rs.getString(4)}\"}"
+            "\"specjalizacje_id\" : ${rs.getInt(4)}}"
       }
 
       rStr += "]"
