@@ -67,7 +67,7 @@ class ShowServices {
           first = false
         }
 
-        rStr += "\"id\" : ${rs.getLong(1)}, " +
+        rStr += "{\"id\" : ${rs.getLong(1)}, " +
             "\"specjalizacje_id\" : ${rs.getLong(2)}, " +
             "\"nazwa\" : \"${rs.getString(3)}\", " +
             "\"wymagane_zasoby\" : " +

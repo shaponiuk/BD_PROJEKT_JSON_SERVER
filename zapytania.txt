@@ -1,0 +1,63 @@
+Zapytania są kierowane na url: "http://students.mimuw.edu.pl:8001"
+
+"/add_to_stock" - dodaje nowy przedmiot do zasobów
+argumenty:
+- "name" - nazwa przedmiotu
+- "ammount" - ilość początkowa
+
+"/add_visit - dodaje nową wizytę i obniża stan zasobów o zasoby potrzebne dla wizyty.
+Jeśli brak odpowiedniej ilości zasobów zwraca komunikat o błędzie.
+argumenty:
+- "service_id" - id szablony uslugi
+- "pesel" - pesel pacjenta
+- "doctor_id" - id lekarza
+- "date" - data wizyty w formacie dd/mm/yy
+
+"/largest_stockroom_id" - zwraca najwyższe id z pośród wszystkich zasobów
+argumenty: brak
+
+"/show_doctors" - pokazuje lekarzy w formacie JSON
+argumenty:
+- (opcjonalne) "with_specialisation" - zwraca tych ze specjalizacją o danym id
+- (opcjonalne) "by_id" - zwraca tylko lekarza o tym id
+
+"/show_patients" - zwraca pacjentów w formacie JSON
+argumenty:
+- (opcjonalne) "by_pesel" - zwraca tylko pacjenta o danym numerze PESEL
+
+"/show_services" - zwraca szablony uslug w formacie JSON
+argumenty:
+- (opcjonalne) "by_id" - zwraca tylko usługę o danym id
+
+"/show_specjalisations" - zwraca specjalizacje w formacie JSON
+argumenty:
+- (opcjonalne) "by_id" - zwraca tylko specjalizację o danym id
+
+"/show_statuses" - zwraca dostępne statusy wizyt w formacie JSON
+argumenty: brak
+
+"/show_stock" - zwraca stan zasobów w formacie JSON
+argumenty (można tylko jeden, wpp. błąd):
+- (opcjonalne) "show_zero" - zwraca tylko te zasoby, których stan jest równy zero (wartość argumentu nie ma znaczenia)
+- (opcjonalne) "show_nonzero" - zwraca tylke te zasoby, których stan jest niezerowy (wartość argumentu nie ma znaczenia)
+- (opcjonalne) "find_by_id" - zwraca tylko zasób o podanym id
+
+"/show_visits" - zwraca wizyty w formacie JSON
+argumenty:
+- (opcjonalne) "for_doctor" (niegotowe, proszę nie używać) - zwraca tylko wizyty uwzględniające lekarza o podanym id
+- (opcjonalne) "for_pesel" (niegotowe, proszę nie używać) - zwraca tylko wizyty uwzględniające pacjenta o podanym numerze pesel.
+
+"/update_stock" - dodaje daną ilość zasobu o danej nazwie do magazynu, jeśli ten już jest dodany do magazynu
+argumenty:
+- "name" - nazwa produktu dodawanego
+- "ammount" - ilość produktu dodawanego
+
+"/update_visit" - zmienia status wizyty o danym id
+argumenty:
+- "visit_id" - id wizyty
+- "status_id" - id nowego statusu
+
+
+
+
+
