@@ -149,7 +149,7 @@ class AddVisit {
     private fun checkDate(date: String): Boolean {
       if (date.contains('\'')
         || date.contains(';')
-        || date.length > 11
+        || date.length > 8
       ) {
         System.out.println("date has \\ or ;")
         return false
